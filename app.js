@@ -4,13 +4,14 @@ const morgan = require('morgan');
 const dotenv = require('dotenv').config();
 const cors = require('cors');
 const session = require('express-session');
-const passport = require('passport');
+const cookieParser = require('cookie-parser');
+//const passport = require('passport');
 
 const connect = require('./schemas');
 
 const drugsRouter = require('./routes/drug');
 const authRouter = require('./routes/auth');
-const passportConfig = require('./passport');
+//const passportConfig = require('./passport');
 
 const app = express();
 //passportConfig();
@@ -23,15 +24,16 @@ connect();
 app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false}));
+app.use(express.urlencoded({ extended: true}));
+app.use(cookieParser());
 app.use(session({
 	resave: false,
 	saveUninitialized: false,
 	secret: process.env.SCERET,
 }))
 app.use(cors());
-app.use(passport.initialize());
-app.use(passport.session())
+//app.use(passport.initialize());
+//app.use(passport.session())
 
 app.use('/drug', drugsRouter);
 app.use('/auth', authRouter);
