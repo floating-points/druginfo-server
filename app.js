@@ -23,15 +23,15 @@ connect();
 app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false}));
+app.use(express.urlencoded({ extended: true}));
 app.use(session({
 	resave: false,
 	saveUninitialized: false,
 	secret: process.env.SCERET,
 }))
 app.use(cors());
-app.use(passport.initialize());
-app.use(passport.session())
+//app.use(passport.initialize());
+//app.use(passport.session())
 
 app.use('/drug', drugsRouter);
 app.use('/auth', authRouter);
