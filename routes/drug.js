@@ -16,10 +16,11 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:drugName', async (req, res, next) => {
 	try {
-		const drug = await Drug.findOne({name: req.params.drugName});
+		const drug = await Drug.findOne({name: {$regex: req.params.drugName}});
 		if (!drug) {
 			next('drug 라우터 에러');
 		}
+		console.log(drug.effect);
 		res.send(drug);
 	} catch (error) {
 		console.error(error);
